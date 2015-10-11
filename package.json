@@ -1,0 +1,25 @@
+{
+  "name": "doc_js",
+  "version": "0.0.1",
+  "description": "Automatic documentation creation for Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/chrisvm/doc.js.git"
+  },
+  "keywords": [
+    "documentation",
+    "markdown",
+    "javascript",
+    "js"
+  ],
+  "author": "christian.velez5@upr.edu",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/chrisvm/doc.js/issues"
+  },
+  "homepage": "https://github.com/chrisvm/doc.js#readme"
+}
