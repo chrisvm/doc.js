@@ -7,7 +7,7 @@ an error.
 
 ## Options
 
-`input_dir` | `array(string)` | `string`
+`input_dir` | `array(string)` | `string` | `Required`
 
 A directory or list of directories where to look for the javascript files. All
 directories are searched recursively unless the 'recursive_search' option is set
@@ -15,24 +15,19 @@ to `false`.
 
 ____
 
-`output_dir` | `string`
+`output_dir` | `string` | `Required`
 
 A directory where the markdown files will be generated
 
 ____
 
-`recursive_search` | `bool`
+`recursive_search` | `bool` | `Default: true`
 
 Whether to recurse through the subdirectories in `input_dir`
 
 ____
 
-`follow_structure` | bool
+`follow_structure` | `bool` | `Default: true`
 
 Whether to follow the structure of the `input_dir` directory or to just create
 files to `output_dir`, using its path to create the filenames.
-
-## Tests
-
-- `conf_input_dir_dir_check`: method which checks if the configuration option
-`input_dir` is a list of strings or a string

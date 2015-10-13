@@ -12,6 +12,7 @@ Config =
         config_file = 'docjs'
         yaml_file = config_file + '.yml'
         json_file = config_file + '.json'
+
         # check if config file in contents
         if yaml_file in contents
             abs_path = path.join dir, yaml_file
