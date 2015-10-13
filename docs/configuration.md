@@ -5,9 +5,6 @@ Configuration for the creation of markdown files is done by a file named
 `docjs.yml` or `docjs.json`. This file is required and its absence will cause
 an error.
 
-*Note: Implementation for `.json` config file support is not finished*
-
-
 ## Options
 
 `input_dir` | `array(string)` | `string`
@@ -27,6 +24,13 @@ ____
 `recursive_search` | `bool`
 
 Whether to recurse through the subdirectories in `input_dir`
+
+____
+
+`follow_structure` | bool
+
+Whether to follow the structure of the `input_dir` directory or to just create
+files to `output_dir`, using its path to create the filenames.
 
 ## Tests
 
