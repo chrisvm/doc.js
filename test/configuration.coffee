@@ -1,12 +1,16 @@
-require('coffee-script/register')
+require 'coffee-script/register'
 
-should = require("should")
-path = require("path")
+should = require 'should'
+path = require 'path'
+temp = require 'temp'
+fs = require 'fs'
+temp.track()
 config_dir = '../src/config'
 
 # describe the Configuration test suite
 describe "Configuration", () ->
-    utils = require(path.join(config_dir, 'utils'))
+    utils = require path.join config_dir, 'utils'
+    config = require path.join config_dir, 'config'
 
     # Configuration utils.validate.arrayOfStrings
     describe "#utils.validate.arrayOfStrings()", () ->
@@ -55,3 +59,32 @@ describe "Configuration", () ->
             test_case = '/path with/spaces/file'
             correct = 'path.with-spaces-file'
             utils.pathToFilename(test_case).should.equal(correct)
+
+    describe '#read()', () ->
+        docjs_config = 'docjs'
+        it 'should give error when config file not found', (done) ->
+            temp.mkdir 'somepath', (err, dirPath) ->
+                should.not.exist config.read dirPath
+                done()
+
+        it 'should read yaml config files', (done) ->
+            temp.mkdir 'somepath', (err, dirPath) ->
+                test_case = 'foo: 1\n'
+                correct = (foo: 1)
+                filename = path.join dirPath, docjs_config + '.yml'
+                fs.writeFile filename, test_case, (err) ->
+                    if err?
+                        throw err
+                    config.read(dirPath).should.deepEqual(correct)
+                    done()
+
+        it 'should read json files', (done) ->
+            temp.mkdir 'somepath', (err, dirPath) ->
+                test_case = '{\n\t"foo": 1\n}\n'
+                correct = (foo: 1)
+                filename = path.join dirPath, docjs_config + '.json'
+                fs.writeFile filename, test_case, (err) ->
+                    if err?
+                        throw err
+                    config.read(dirPath).should.deepEqual(correct)
+                    done()

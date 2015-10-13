@@ -18,6 +18,7 @@ Misc =
 
         parsed = path.parse(pathstring)
         ret = pathstring.replace(parsed.root, '')
+        ret = ret.replace(/\ +/g, '.')
         ret = ret.replace(/\/+/g, '-')
         return ret
 
