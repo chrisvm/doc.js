@@ -5,6 +5,7 @@ module.exports = (grunt) ->
 			compile:
 				files:
 					'test/configuration.js': 'test/configuration.coffee'
+					'doc.js': 'src/doc.coffee'
 
 				options:
 					bare: true
@@ -14,13 +15,19 @@ module.exports = (grunt) ->
 				'test/*.js'
 			]
 
+		watch:
+			coffee:
+				files: ['**/*.coffee']
+				tasks: ['newer:coffee']
 
-	grunt.initConfig(config)
+	grunt.initConfig config
 
 	# load tasks
-	grunt.loadNpmTasks('grunt-contrib-coffee')
-	grunt.loadNpmTasks('grunt-contrib-clean')
+	grunt.loadNpmTasks 'grunt-contrib-coffee'
+	grunt.loadNpmTasks 'grunt-contrib-clean'
+	grunt.loadNpmTasks 'grunt-contrib-watch'
+	grunt.loadNpmTasks 'grunt-newer'
 
 	# register tasks
-	grunt.registerTask('default', ['clean', 'init'])
-	grunt.registerTask('init', ['coffee'])
+	grunt.registerTask 'default', ['watch']
+	grunt.registerTask 'init', ['coffee']
