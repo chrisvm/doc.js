@@ -1,7 +1,8 @@
+require 'coffee-script/register'
 path = require 'path'
 fs = require 'fs'
 YAML = require 'yamljs'
-
+utils = require './utils'
 
 Config =
     # read the config file in dir
@@ -26,4 +27,6 @@ Config =
         # config_content contains the config object
         return config_content
 
+    utils: utils
+    
 module.exports = Config
