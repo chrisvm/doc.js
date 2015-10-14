@@ -31,3 +31,14 @@ ____
 
 Whether to follow the structure of the `input_dir` directory or to just create
 files to `output_dir`, using its path to create the filenames.
+
+____
+
+Here's an example of a conf file
+
+```yaml
+input_dir: 'src'
+output_dir: 'docs/api'
+recursive_search: true
+follow_structure: true
+```
