@@ -61,15 +61,21 @@ describe "Configuration", () ->
             utils.pathToFilename(test_case).should.equal(correct)
 
     describe "#utils.validate.hasRequired()", () ->
-        test_conf = foo: 1
+        test_conf = (foo: 'sdsds')
         correct = {}
+
+        it 'should give false for a empty object', () ->
+            utils.valid.hasRequired({}).should.equal(false)
+
         for field in utils.valid.hasRequired.fields
             correct[field] = 'somestring'
-            message = 'it should give false when field "' + field + '" is missing'
+            message = 'it should give false when required field "' + field + '" is missing'
             it message, () ->
                 utils.valid.hasRequired(test_conf).should.equal(false)
 
-        it 'should give true when all the required fields are present'
+        it 'should give true when all the required fields are present', () ->
+            utils.valid.hasRequired(correct).should.equal(true)
+
     describe '#read()', () ->
         docjs_config = 'docjs'
         it 'should give error when config file not found', (done) ->

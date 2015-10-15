@@ -16,8 +16,12 @@ Validation =
 
     # check if conf has required fields
     hasRequired: (conf) ->
+        keys = Object.keys(conf)
+        if keys.length <= 0
+            return false
+
         for field in requiredFields
-            if not field of conf
+            if field not in keys
                 return false
         return true
 

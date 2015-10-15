@@ -27,6 +27,8 @@ Config =
         # config_content contains the config object
         return config_content
 
+    validate: (dir) ->
+
     utils: utils
     
 module.exports = Config

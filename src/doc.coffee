@@ -10,5 +10,6 @@ main = () ->
     # if config not found, throw error
     if not cnf?
         throw 'Config not found error'
-    console.log cnf
+
+    # check config has required fields
 main()
