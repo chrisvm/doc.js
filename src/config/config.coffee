@@ -28,7 +28,18 @@ Config =
         return config_content
 
     validate: (dir) ->
+        # try to read conf in dir
+        cnf = Config.read(dir)
 
-    utils: utils
+        # if not found, error
+        if not cnf?
+            throw 'ConfigurationNotFoundError'
+
+        # look for required fields
+        if not utils.valid.hasRequired(cnf)
+            throw 'RequiredFieldsNotFoundError'
+        return cnf
     
+    utils: utils
+
 module.exports = Config
