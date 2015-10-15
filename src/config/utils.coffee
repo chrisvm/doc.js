@@ -1,4 +1,8 @@
 path = require('path')
+requiredFields = [
+    'input_dir',
+    'output_dir'
+]
 
 Validation =
     # check if mixed is an array of strings
@@ -9,6 +13,13 @@ Validation =
                     return false
             return true
         return false
+
+    # check if conf has required fields
+    hasRequired: (conf) ->
+        for field in requiredFields
+            if not field of conf
+                return false
+        return true
 
 Misc =
     # convert path to name of file
@@ -22,5 +33,6 @@ Misc =
         ret = ret.replace(/\/+/g, '-')
         return ret
 
+Validation.hasRequired.fields = requiredFields
 Misc.valid = Validation
 module.exports = Misc

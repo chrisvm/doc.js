@@ -60,6 +60,16 @@ describe "Configuration", () ->
             correct = 'path.with-spaces-file'
             utils.pathToFilename(test_case).should.equal(correct)
 
+    describe "#utils.validate.hasRequired()", () ->
+        test_conf = foo: 1
+        correct = {}
+        for field in utils.valid.hasRequired.fields
+            correct[field] = 'somestring'
+            message = 'it should give false when field "' + field + '" is missing'
+            it message, () ->
+                utils.valid.hasRequired(test_conf).should.equal(false)
+
+        it 'should give true when all the required fields are present'
     describe '#read()', () ->
         docjs_config = 'docjs'
         it 'should give error when config file not found', (done) ->
