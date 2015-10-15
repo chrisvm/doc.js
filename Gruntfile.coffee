@@ -4,7 +4,7 @@ module.exports = (grunt) ->
 		coffee:
 			compile:
 				files:
-					'test/configuration.js': 'test/configuration.coffee'
+					'test/configuration.js': 'test/configuration_test.coffee'
 					'doc.js': 'src/doc.coffee'
 
 				options:
