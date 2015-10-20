@@ -18,5 +18,5 @@ main = () ->
 
     # recurse through the input_dir looking for js and yml files
     dir_contents = search path.resolve cnf.input_dir
-
+    console.log JSON.stringify(dir_contents[0].ast_clean(), null, 4)
 main()
