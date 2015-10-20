@@ -7,6 +7,7 @@ module.exports = (grunt) ->
 					'test/configuration.js': 'test/configuration_test.coffee'
 					'test/dir.js': 'test/dir_test.coffee'
 					'doc.js': 'src/doc.coffee'
+					'src/parsing/coffee_parser.js': 'src/parsing/coffee_parser.coffee'
 
 				options:
 					bare: true
