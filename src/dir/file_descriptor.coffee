@@ -1,6 +1,7 @@
 require 'coffee-script/register'
 path = require 'path'
 fs = require 'fs'
+coffee = require 'coffee-script'
 esprima = require 'esprima'
 
 
@@ -31,9 +32,27 @@ class FileDescriptor
 
         if type is 'coffee-script'
             # parse coffescript
-            return {}
+            return coffee.nodes(filedata.toString())
         else if type is 'javascript'
             # parse javascript
             return esprima.parse(filedata)
+
+    ast_clean: () ->
+        ignore = ['locationData']
+        recv = (obj) ->
+            if Array.isArray(obj)
+                ret = []
+                for item in obj
+                    ret.push(recv(item))
+                return ret
+            else if typeof(obj) is 'object'
+                ret = {}
+                for key,value of obj
+                    if key not in ignore
+                        ret[key] = recv(value)
+                return ret
+            else
+                return obj
+        return recv(this.parsed)
 
 module.exports = FileDescriptor
