@@ -11,18 +11,21 @@ FileDesc = require './file_descriptor'
 # @return [object] an array of file descriptor objects
 ###
 search = (dir) ->
-    ret = []
-    if not utils.is.dir(dir)
-        return ret
+    recv = (dir, root) ->
+        ret = []
+        if not utils.is.dir(dir)
+            return ret
 
-    contents = fs.readdirSync(dir)
-    for item in contents
-        item = path.resolve(dir, item)
-        if utils.is.dir(item)
-            ret.concat(search(item))
-        else
-            if utils.file_supported(item)
-                ret.push(new FileDesc(item))
-    return ret
+        contents = fs.readdirSync(dir)
+        for item in contents
+            item = path.resolve(dir, item)
+            if utils.is.dir(item)
+                ret.concat(recv(item, root))
+            else
+                if utils.file_supported(item)
+                    new_file = new FileDesc(root, item)
+                    ret.push(new_file)
+        return ret
+    return recv dir, dir
 
 module.exports = search
