@@ -17,7 +17,6 @@ main = () ->
         throw 'InputDirNotFoundError'
 
     # recurse through the input_dir looking for js and yml files
-    search.root = cnf.input_dir
     dir_contents = search path.resolve cnf.input_dir
-    console.log(dir_contents)
+
 main()
