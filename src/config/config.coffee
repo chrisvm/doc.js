@@ -1,6 +1,7 @@
 require 'coffee-script/register'
 path = require 'path'
 fs = require 'fs'
+config_exception = require './errors'
 YAML = require 'yamljs'
 utils = require './utils'
 
@@ -33,13 +34,14 @@ Config =
 
         # if not found, error
         if not cnf?
-            throw 'ConfigurationNotFoundError'
+            throw new config_exception.ConfigurationNotFoundError(dir)
 
         # look for required fields
         if not utils.valid.hasRequired(cnf)
+            # TODO: use new created exception
             throw 'RequiredFieldsNotFoundError'
         return cnf
-    
+
     utils: utils
 
 module.exports = Config
