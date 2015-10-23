@@ -38,8 +38,7 @@ Config =
 
         # look for required fields
         if not utils.valid.hasRequired(cnf)
-            # TODO: use new created exception
-            throw 'RequiredFieldsNotFoundError'
+            throw new config_exception.RequiredPropertyNotFoundError
         return cnf
 
     utils: utils
