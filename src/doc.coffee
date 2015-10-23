@@ -11,22 +11,22 @@ main = () ->
     # get opts from cli
     program = cli_frontend.opts_parse()
 
+    # get base path
     if program.dir?
-        # get base path
-        cwd = path.dirname(program.dir)
-        cnf = config.validate(cwd)
+        cwd = path.resolve(program.dir)
     else
-        # set config_dir to current dir
         cwd = process.cwd()
-        # get config
-        cnf = config.validate(cwd)
+
+    # get config
+    cnf = config.validate(cwd)
 
     # check input dir exists
-    if not fs.statSync(cnf.input_dir).isDirectory()
+    input_dir = path.join cwd, cnf.input_dir
+    if not fs.statSync(input_dir).isDirectory()
         throw new dir_exception.InputDirNotFoundError(cnf.input_dir)
 
     # recurse through the input_dir looking for js and yml files
-    dir_contents = search path.resolve cnf.input_dir
+    dir_contents = search input_dir
 
     # TODO: start with the ast normalization and processing
 main()
