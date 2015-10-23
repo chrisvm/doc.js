@@ -35,7 +35,10 @@ class FileDescriptor
             return coffee.nodes(filedata.toString())
         else if type is 'javascript'
             # parse javascript
-            return esprima.parse(filedata)
+            options =
+                comment: true
+                loc: true
+            return esprima.parse filedata, options
 
     ast_clean: () ->
         ignore = ['locationData']
