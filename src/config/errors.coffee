@@ -10,5 +10,11 @@ class RequiredPropertyNotFoundError
     constructor: (field, objName) ->
         @field = field
         @obj = objName
-        @message = "Required property '" +
-        # TODO: finish this class 
+        @message = "Required property '" + field + "' in "
+        @message += objName
+        @toString = () ->
+            return @message
+
+module.exports =
+    ConfigurationNotFoundError: ConfigurationNotFoundError
+    RequiredPropertyNotFoundError: RequiredPropertyNotFoundError
