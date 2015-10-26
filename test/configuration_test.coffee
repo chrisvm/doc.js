@@ -78,7 +78,7 @@ describe "Configuration", () ->
 
     describe '#read()', () ->
         docjs_config = 'docjs'
-        it 'should give error when config file not found', (done) ->
+        it 'should give null when config file not found', (done) ->
             temp.mkdir 'somepath', (err, dirPath) ->
                 should.not.exist config.read dirPath
                 done()
@@ -104,3 +104,10 @@ describe "Configuration", () ->
                         throw err
                     config.read(dirPath).should.deepEqual(correct)
                     done()
+
+    describe '#json_yml_config()', () ->
+        somefile = 'test_file'
+        it 'should return null if not json or yaml found', (done) ->
+            temp.mkdir 'somepath', (err, dirPath) ->
+                should.not.exist config.json_yml_config dirPath, 'module'
+                done()

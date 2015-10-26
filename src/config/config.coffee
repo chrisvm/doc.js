@@ -41,6 +41,20 @@ Config =
             throw new config_exception.RequiredPropertyNotFoundError
         return cnf
 
+    json_yml_config: (dir, filename) ->
+        # read dir contents
+        dir_contents = fs.readdirSync(dir)
+
+        # look for yaml or json files with name
+        # <filename>.json or <filename>.yml
+        for file in dir_contents
+            if path.basename(file, '.json') is filename
+                # found json file
+                return JSON.parse(fs.readFileSync(file, 'utf8'))
+            else if path.basename(file, '.yml') is filename
+                return YAML.parse(fs.readFileSync(file, 'utf8'))
+        return null
+
     utils: utils
 
 module.exports = Config
