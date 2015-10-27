@@ -3,7 +3,7 @@ fs = require 'fs'
 path = require 'path'
 utils = require './utils'
 FileDesc = require './file_descriptor'
-
+pl_base = require '../plugins/plug_base'
 
 ###
 # Create a list of file descriptor objects by searching the dir
@@ -22,6 +22,7 @@ search = (dir) ->
             if utils.is.dir(item)
                 ret.concat(recv(item, root))
             else
+                # TODO: change to pl_base.file_supported
                 if utils.file_supported(item)
                     new_file = new FileDesc(root, item)
                     ret.push(new_file)
