@@ -29,8 +29,11 @@ main = () ->
     dir_contents = search input_dir
 
     console.log(dir_contents[0])
+    # TODO: plugin arquitecture needs to be implemented before starting
+    ##      with js parsing needs
+
     # TODO: js parsing - comments need to be attached to the corresponding
     ##      ast nodes
-    
+
     # TODO: start with the ast normalization and processing
 main()
