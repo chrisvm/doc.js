@@ -48,11 +48,13 @@ Config =
         # look for yaml or json files with name
         # <filename>.json or <filename>.yml
         for file in dir_contents
+            abs_file = path.join(dir, file)
             if path.basename(file, '.json') is filename
                 # found json file
-                return JSON.parse(fs.readFileSync(file, 'utf8'))
+                return JSON.parse(fs.readFileSync(abs_file, 'utf8'))
             else if path.basename(file, '.yml') is filename
-                return YAML.parse(fs.readFileSync(file, 'utf8'))
+                # found yaml file
+                return YAML.parse(fs.readFileSync(abs_file, 'utf8'))
         return null
 
     utils: utils

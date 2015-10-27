@@ -2,6 +2,7 @@ require 'coffee-script/register'
 
 should = require 'should'
 path = require 'path'
+YAML = require 'yamljs'
 temp = require 'temp'
 fs = require 'fs'
 temp.track()
@@ -107,7 +108,32 @@ describe "Configuration", () ->
 
     describe '#json_yml_config()', () ->
         somefile = 'test_file'
+        someobj = {foo: "bar"}
+        somejson = JSON.stringify(someobj)
+        someyaml = YAML.stringify(someobj)
         it 'should return null if not json or yaml found', (done) ->
             temp.mkdir 'somepath', (err, dirPath) ->
                 should.not.exist config.json_yml_config dirPath, 'module'
                 done()
+
+        it 'should return an object for a json file', (done) ->
+            temp.mkdir 'somepath', (err, dirPath) ->
+                filename = path.join(dirPath, somefile + '.json')
+                to_write =
+                fs.writeFile filename, somejson, (err) ->
+                    if err?
+                        throw err
+                    test = config.json_yml_config(dirPath, somefile)
+                    test.should.deepEqual(someobj)
+                    done()
+
+        it 'should return an object for a yaml file', (done) ->
+            temp.mkdir 'someotherpath', (err, dirPath) ->
+                filename = path.join(dirPath, somefile + '.yml')
+                to_write =
+                fs.writeFile filename, someyaml, (err) ->
+                    if err?
+                        throw err
+                    test = config.json_yml_config(dirPath, somefile)
+                    test.should.deepEqual(someobj)
+                    done()
