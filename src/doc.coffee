@@ -28,5 +28,9 @@ main = () ->
     # recurse through the input_dir looking for js and yml files
     dir_contents = search input_dir
 
+    console.log(dir_contents[0])
+    # TODO: js parsing - comments need to be attached to the corresponding
+    ##      ast nodes
+    
     # TODO: start with the ast normalization and processing
 main()
