@@ -1,8 +1,6 @@
 require 'coffee-script/register'
 path = require 'path'
 fs = require 'fs'
-coffee = require 'coffee-script'
-esprima = require 'esprima'
 
 
 class FileDescriptor
@@ -10,37 +8,13 @@ class FileDescriptor
         @filepath = filepath
         @name = path.parse(filepath).base
         @ext = path.parse(filepath).ext
-        @parsed = this.parse()
+        @parsed = null
         @root = root
         @from_root = path.relative(root, filepath)
 
-    type: () ->
-        if not this.ext?
-            return null
-        if this.ext is '.coffee'
-            return 'coffee-script'
-        else if this.ext is '.js'
-            return 'javascript'
-        else
-            return null
-
-    parse: () ->
-        if not this.filepath?
-            return null
-        type = this.type()
-        filedata = fs.readFileSync(this.filepath)
-
-        if type is 'coffee-script'
-            # parse coffescript
-            return coffee.nodes(filedata.toString())
-        else if type is 'javascript'
-            # parse javascript
-            options =
-                comment: true
-                loc: true
-            return esprima.parse filedata, options
-
     ast_clean: () ->
+        if not this.parsed?
+            return ''
         ignore = ['locationData']
         recv = (obj) ->
             if Array.isArray(obj)
@@ -56,6 +30,6 @@ class FileDescriptor
                 return ret
             else
                 return obj
-        return recv(this.parsed)
+        this.parsed = recv(this.parsed)
 
 module.exports = FileDescriptor
