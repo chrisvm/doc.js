@@ -57,6 +57,13 @@ Config =
                 return YAML.parse(fs.readFileSync(abs_file, 'utf8'))
         return null
 
+    valid_plugin: (obj) ->
+        required_fields = ["module_name", "support_ext"]
+        for field in required_fields
+            if not field of obj
+                return field
+        return true
+
     utils: utils
 
 module.exports = Config
