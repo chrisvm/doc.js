@@ -1,0 +1,2 @@
+module_name: "coffee-parser"
+support_ext: ".coffee"
