@@ -1,5 +1,7 @@
 fs = require 'fs'
+path = require 'path'
 esprima = require 'esprima'
+ast_functions = require path.join __dirname, 'ast.coffee'
 
 
 getType = () ->
@@ -10,7 +12,8 @@ parse = (desc) ->
     options =
         comment: true
         loc: true
-    return esprima.parse filedata, options
+    raw_ast = esprima.parse filedata, options
+    return ast_functions.attach_comments raw_ast
 
 Plugin =
     getType: getType
