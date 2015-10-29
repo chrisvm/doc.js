@@ -24,17 +24,9 @@ describe 'DirMethods', () ->
                 search(dirpath).length.should.equal(1)
                 done()
 
-    describe '#utils', () ->
-        describe '#file_supported()', () ->
-            test_case = 'foo.bar'
-
-            it 'should give false for a not supported file', () ->
-                utils.file_supported(test_case).should.equal(false)
-
-            for supp_file in utils.file_supported.supported
-                message = 'should return true when given a "'
-                message += supp_file
-                message += '" ext file'
-                correct = 'foo' + supp_file
-                it message, () ->
-                    utils.file_supported(correct).should.equal(true)
+        it 'should a file descriptor object for .coffee files', (done) ->
+            temp.mkdir 'coffee_temp_files', (err, dirpath) ->
+                filename = path.join dirpath, 'test.coffee'
+                fs.writeFileSync filename, 'x = 10'
+                search(dirpath).length.should.equal(1)
+                done()
