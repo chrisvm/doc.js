@@ -3,6 +3,7 @@ fs = require 'fs'
 path = require 'path'
 coffee = require 'coffee-script'
 ast_functions = require path.join __dirname, 'ast'
+#types = require path.join __dirname, 'types'
 
 
 getType = () ->
