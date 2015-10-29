@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 require 'coffee-script/register'
+colors = require 'colors'
 config = require './src/config/config'
 dir_exception = require './src/dir/errors'
 fs = require 'fs'
@@ -10,11 +11,13 @@ cli_frontend = require './src/config/cli'
 
 
 main = () ->
-    # init plugins
-    pl_base = PlugBase.default_plugins()
-
     # get opts from cli
     program = cli_frontend.opts_parse()
+
+    # init plugins
+    if program.verbose is true
+        PlugBase.force_verbose()
+    pl_base = PlugBase.default_plugins()
 
     # get base path
     if program.dir?
@@ -26,18 +29,24 @@ main = () ->
     try
         cnf = config.validate(cwd)
     catch error
-        console.log(error.toString())
+        if program.verbose is true
+            console.trace(error.toString().red)
+        else
+            console.log(error.toString().red)
         return
 
     # check input dir exists
     input_dir = path.join cwd, cnf.input_dir
     if not fs.statSync(input_dir).isDirectory()
-        console.log((new dir_exception.InputDirNotFoundError(cnf.input_dir)).toString())
+        if program.verbose is true
+            console.log((new dir_exception.InputDirNotFoundError(cnf.input_dir)))
+        else
+            console.log((new dir_exception.InputDirNotFoundError(cnf.input_dir)).toString().red)
 
     # recurse through the input_dir looking for js and yml files
     dir_contents = search input_dir
 
-    console.log(dir_contents)
+    console.log(JSON.stringify(dir_contents[0].parsed, null, 4))
     # TODO: js parsing - comments need to be attached to the corresponding
     ##      ast nodes
 
