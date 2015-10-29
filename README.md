@@ -4,7 +4,7 @@ doc.js
 Automatic Markdown creation from js files
 
 
-Instalation
+Installation
 ===========
 
 1. Install all npm dependencies by running
