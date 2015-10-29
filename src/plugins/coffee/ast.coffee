@@ -1,4 +1,4 @@
-remove_nodes: (ast) ->
+remove_nodes = (ast) ->
     ignore = ['locationData']
     recv = (obj) ->
         if Array.isArray(obj)
