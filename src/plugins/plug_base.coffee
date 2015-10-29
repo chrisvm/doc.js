@@ -1,5 +1,6 @@
 require 'coffee-script/register'
 fs = require 'fs'
+colors = require 'colors'
 path = require 'path'
 config = require '../config/config'
 dir_utils = require '../dir/utils'
@@ -7,10 +8,23 @@ config_exception = require '../config/errors'
 
 
 class PlugBase
-    constructor: (plugin_dir) ->
+    @disabled: []
+    @is_disabled: (plug_def) ->
+        for dbled in PlugBase.disabled
+            if dir_utils.is.equal_obj dbled, plug_def
+                return true
+        return false
+
+    @_force_verbose: false
+    @force_verbose: () ->
+        PlugBase._force_verbose = not PlugBase._force_verbose
+
+    constructor: (plugin_dir, opts) ->
+        opts = if not opts? then {} else opts
         @pl_dir = plugin_dir
         @plugins = {}
         @supported_files = []
+        @verbose = if PlugBase._force_verbose or opts.verbose is true then true else false
         this.init()
 
     init: () ->
@@ -22,10 +36,28 @@ class PlugBase
                 dir_def = config.json_yml_config abs_item, 'def'
                 if dir_def?
                     dir_def.plug_path = abs_item
+                    # if plugin is disabled, skip
+                    if PlugBase.is_disabled dir_def
+                        if this.verbose is true
+                            message = "Warning: trying to load disabled plugin "
+                            message += "'" + dir_def.module_name + "'"
+                            console.log(message.yellow)
+                        continue
+
                     try
                         this.process_plugin dir_def
-                    catch
-                        console.log("Warning: error adding plugin in " + abs_item)
+                    catch error
+                        base_msg = "Warning: error adding plugin "
+                        base_msg += "'" + dir_def.module_name + "'"
+                        base_msg += " in " + abs_item
+                        if this.verbose is true
+                            base_msg += "\n"
+                            base_msg += "    -> " + error.toString()
+                        console.log(base_msg.yellow)
+                        # add to global plugin disabled list so when another PlugBase
+                        # object is created in the same session it doesnt try to open
+                        # the same plugin
+                        PlugBase.disabled.push dir_def
 
     process_plugin: (plug_def) ->
         validation = config.valid_plugin plug_def
@@ -55,9 +87,12 @@ class PlugBase
         else
             return false
 
-    @default_plugins: () ->
+    @default_plugins: (opts) ->
         plugin_dir = __dirname
-        ret = new PlugBase path.resolve plugin_dir
+        if opts?
+            ret = new PlugBase (path.resolve plugin_dir), opts
+        else
+            ret = new PlugBase (path.resolve plugin_dir)
         return ret
 
 module.exports = PlugBase
