@@ -1,0 +1,4 @@
+input_dir: 'tst_src'
+output_dir: 'docs/api'
+recursive_search: true
+follow_structure: true
