@@ -47,6 +47,8 @@ main = () ->
     dir_contents = search input_dir
 
     console.log(JSON.stringify(dir_contents[0].parsed, null, 4))
+    # TODO: add functions for creating test plugins for unit testing
+    # TODO: add tests for PlugBase class
     # TODO: js parsing - comments need to be attached to the corresponding
     ##      ast nodes
 
