@@ -1,4 +1,12 @@
 ###
+# Returns an person object with name "John Doe"
+# @return Person the "John Doe" object
+###
+get_john = () ->
+    return new Person("John Doe", 25)
+
+
+###
 # @class Person
 # This class describes a person structure, with common methods. Used as
 # test source for doc creation
